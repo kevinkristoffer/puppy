@@ -35,7 +35,7 @@ class Puppy {
 		{
 			$configFileDirectory = APPLICATION_PATH . DS . self::APPLICATION_CONFIG_DIR . DS;
 			self::loadClass ( 'Puppy_Core_Config' );
-			$config = Puppy_Core_Config::loadIniConfig ( $configFileDirectory, $key . '.ini' );
+			$config = Puppy_Core_Config::loadIniConfig ( $configFileDirectory, $key . '.ini', APPLICATION_ENV );
 			Zend_Registry::set ( $key, $config );
 		}
 		

@@ -6,9 +6,10 @@ return array (
     'params' => 
     array (
       'host' => '127.0.0.1',
-      'username' => 'kristoffer',
-      'password' => '616703255',
-      'dbname' => 'piccdb',
+      'username' => 'piccadmin',
+      'password' => 'picc12345678',
+      'dbname' => 'puppy',
+      'prefix' => 'pp_',
       'persistent' => '0',
     ),
   ),

@@ -16,6 +16,18 @@ class App extends Zend_Application_Bootstrap_Bootstrap {
 			$front->setRequest ( $request );
 		}
 	}
+	
+	/**
+	 * Autolaod the class
+	 *
+	 * @return Zend_Loader_Autoloader
+	 */
+	protected function _initAutoload(){
+		require_once APPLICATION_PATH.'/core/Autoloader.php';
+		$autoloader = Zend_Loader_Autoloader::getInstance();
+		$autoloader->unshiftAutoloader(new Puppy_Core_Autoloader(), 'Puppy');
+		return $autoloader;
+	}
 
 	protected function _initPlugins()
 	{
@@ -37,7 +49,6 @@ class App extends Zend_Application_Bootstrap_Bootstrap {
 		$this->bootstrap ( 'FrontController' );
 		$front = $this->getResource ( 'FrontController' );
 		
-		Puppy::loadClass('Puppy_Core_Module_Loader');
 		$routes=Puppy_Core_Module_Loader::getInstance()->getRoutes();
 		$front->setRouter($routes);
 		$front->getRouter()->removeDefaultRoutes();

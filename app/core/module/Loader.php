@@ -14,6 +14,10 @@ class Puppy_Core_Module_Loader {
 	 */
 	private $_moduleNames;
 
+	/**
+	 *
+	 * @return Puppy_Core_Module_Loader
+	 */
 	public static function getInstance()
 	{
 		if (null == self::$_instance)
@@ -47,8 +51,11 @@ class Puppy_Core_Module_Loader {
 			
 			foreach ( $configFiles as $file )
 			{
-				$config = new Zend_Config_Ini ( $file, 'routes' );
-				$router->addConfig ( $config, 'routes' );
+				foreach ( $file as $dir => $name )
+				{
+					$config=new Zend_Config_Ini($dir.$name,'routes');
+					$router->addConfig ( $config, 'routes' );
+				}
 			}
 		}
 		
@@ -57,13 +64,12 @@ class Puppy_Core_Module_Loader {
 
 	private function _getModules()
 	{
-		Puppy::loadClass ( 'Puppy_Core_Utility_File' );
 		return Puppy_Core_Utility_File::getSubDir ( APPLICATION_PATH . DS . 'modules' );
 	}
 
 	private function _loadRouteConfigs($moduleName)
 	{
-		$dir = APPLICATION_PATH . DS . 'modules' . DS . $moduleName . DS . 'configs' . DS . 'routes';
+		$dir = APPLICATION_PATH . DS . 'modules' . DS . $moduleName . DS . 'configs' . DS . 'routes'.DS;
 		if (! is_dir ( $dir ))
 		{
 			return array ();
@@ -83,7 +89,8 @@ class Puppy_Core_Module_Loader {
 			{
 				continue;
 			}
-			$configFiles [] = $dir . DS . $name;
+			$configFiles [] = array (
+					$dir => $name );
 		}
 		
 		return $configFiles;

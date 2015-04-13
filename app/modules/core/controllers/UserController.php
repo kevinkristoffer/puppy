@@ -2,6 +2,10 @@
 
 class UserController extends Zend_Controller_Action {
 
+	public function listAction()
+	{
+	}
+
 	public function detailAction()
 	{
 		$this->_helper->viewRenderer->setNoRender ( true );
@@ -11,7 +15,16 @@ class UserController extends Zend_Controller_Action {
 		if (empty ( $uid ) || ! preg_match ( '/^(\d+)$/', $uid ))
 			exit ();
 		
-		echo '<p>Request User ID:'.$uid.'</p>';
+		$db = Puppy_Core_Db::getConnection ();
+		$modelManager = Puppy_Core_Model_Manager::getInstance ();
+		$modelManager->setDbConnection ( $db );
+		$modelManager->registerModel ( 'user' );
+		$user = $modelManager->user->getUserDetail ( $uid, array (
+				'accountname',
+				'email',
+				'rolename',
+				'comname' ) );
+		var_dump ( $user );
 	}
 }
 
