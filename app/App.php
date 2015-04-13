@@ -51,7 +51,7 @@ class App extends Zend_Application_Bootstrap_Bootstrap {
 		
 		$routes=Puppy_Core_Module_Loader::getInstance()->getRoutes();
 		$front->setRouter($routes);
-		$front->getRouter()->removeDefaultRoutes();
+		//$front->getRouter()->removeDefaultRoutes();	//开发环境关闭
 		
 		/**
 		 * Zend Framework 1.10.0 requires route which matchs with "/"

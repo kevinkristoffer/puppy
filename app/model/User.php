@@ -32,7 +32,7 @@ class Puppy_Model_User extends Puppy_Core_Model {
 			->columns ( $colsRole, 'b' )
 			->columns ( $colsCompany, 'c' )
 			->where ( 'a.userid=?', $id );
-		echo '<h5>' . $select->__toString () . '</h5>';
+		//echo '<h5>' . $select->__toString () . '</h5>';
 		$rs = $select->query ()
 			->fetch ();
 		return $rs;

@@ -26,5 +26,9 @@ return array (
         'prefixDefaultModule' => '',
       ),
     ),
+    'layout' => 
+    array (
+      'layoutPath' => 'D:\\www\\puppy\\app/templates/scripts/',
+    ),
   ),
 );

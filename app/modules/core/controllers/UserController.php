@@ -8,8 +8,8 @@ class UserController extends Zend_Controller_Action {
 
 	public function detailAction()
 	{
-		$this->_helper->viewRenderer->setNoRender ( true );
-		header ( 'content-type:text/html;charset=utf-8' );
+		$this->_helper->getHelper('viewRenderer')->setNoRender();
+		$this->_helper->getHelper('layout')->disableLayout();
 		
 		$uid = $this->_request->getParam ( 'uid' );
 		if (empty ( $uid ) || ! preg_match ( '/^(\d+)$/', $uid ))
@@ -19,12 +19,15 @@ class UserController extends Zend_Controller_Action {
 		$modelManager = Puppy_Core_Model_Manager::getInstance ();
 		$modelManager->setDbConnection ( $db );
 		$modelManager->registerModel ( 'user' );
+		
 		$user = $modelManager->user->getUserDetail ( $uid, array (
 				'accountname',
 				'email',
 				'rolename',
 				'comname' ) );
-		var_dump ( $user );
+		
+		$this->_response->setHeader('content-type', 'text/html;charset=utf-8');
+		$this->_response->setBody(var_dump($user));
 	}
 }
 
