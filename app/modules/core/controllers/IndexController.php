@@ -11,6 +11,8 @@ class IndexController extends Zend_Controller_Action{
 		echo 'This is index page';
 	}
 	
+	
+	
 }
 
 ?>

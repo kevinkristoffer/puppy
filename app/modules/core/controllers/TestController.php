@@ -1,7 +1,7 @@
 <?php
 
 class TestController extends Zend_Controller_Action {
-
+	
 	public function test1Action()
 	{
 		$this->_helper->layout->setLayout ( 'core/layout' );
@@ -11,7 +11,7 @@ class TestController extends Zend_Controller_Action {
 		$modelManager->setDbConnection ( $db );
 		$modelManager->registerModel ( 'user' );
 		
-		$user = $modelManager->user->getUserDetail ( 43, array (
+		$user = $modelManager->user->getUserDetail ( 46, array (
 				'accountname',
 				'email',
 				'rolename',
