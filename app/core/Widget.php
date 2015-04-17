@@ -49,9 +49,10 @@ abstract class Puppy_Core_Widget {
 		$this->_request = clone $request;
 		$this->_response = clone $response;
 		$viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper ( 'viewRenderer' );
-		$this->_helperPaths = $this->_view->getHelperPaths ();
+		$this->_view = clone $viewRenderer->view;
 		
-		$this->_view->addHelperPath ( APPLICATION_PATH . DS . 'modules' . DS . $this->_module . DS . 'views' . DS . 'helpers', 'Puppy_View_Helper_' . $this->_module . '_' );
+		$this->_helperPaths = $this->_view->getHelperPaths ();
+// 		$this->_view->addHelperPath ( APPLICATION_PATH . DS . 'modules' . DS . $this->_module . DS . 'views' . DS . 'helpers', 'Puppy_View_Helper_' . $this->_module . '_' );
 		$this->_view->addHelperPath ( APPLICATION_PATH . DS . 'modules' . DS . $this->_module . DS . 'widgets' . DS . $this->_name, 'Puppy_Widget_' . $this->_name . '_' );
 	}
 
@@ -89,7 +90,7 @@ abstract class Puppy_Core_Widget {
 	}
 
 	public function __call($name, $arguments)
-	{
+	{	
 		$this->_reset ();
 		
 		if ($arguments != null && is_array ( $arguments ) && count ( $arguments ) > 0)
@@ -111,16 +112,17 @@ abstract class Puppy_Core_Widget {
 		$name = strtolower ( $name );
 		
 		$path = APPLICATION_PATH . DS . 'modules' . DS . $this->_module . DS . 'widgets' . DS . $this->_name;
-		if (file_exists ( $path . DS . $this->_name . '.phtml' ))
+		if (file_exists ( $path . DS . $name . '.phtml' ))
 		{
 			$this->_view->addScriptPath ( $path );
 		}
-		$file = $this->_view->getScriptPath ( null ) . $this->_name . '.phtml';
-		if ($file != null && file_exists ( $file ))
-		{
-			$content = $this->_view->render ( $name . '.phtml' );
-			$this->_response->appendBody ( $content );
+		
+		$file = $this->_view->getScriptPath(null).$name.'.phtml';
+		if ($file != null && file_exists($file)) {
+			$content = $this->_view->render($name.'.phtml');
+			$this->_response->appendBody($content);
 		}
+		
 		$body = $this->_response->getBody ();
 		$this->_reset ();
 		

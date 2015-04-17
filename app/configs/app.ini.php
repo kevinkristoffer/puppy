@@ -16,7 +16,7 @@ return array (
     array (
       'moduleDirectory' => 'D:\\www\\puppy\\app/modules',
       'moduleControllerDirectoryName' => 'controllers',
-      'defaultModule' => 'core',
+      'defaultModule' => 'front',
       'baseUrl' => '',
       'params' => 
       array (

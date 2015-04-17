@@ -1,18 +1,29 @@
 <?php
 
-
-class IndexController extends Zend_Controller_Action{
+class Core_IndexController extends Zend_Controller_Action {
 	
-	public function indexAction(){
-		
-		$this->_helper->viewRenderer->setNoRender ( true );
-		header ( 'content-type:text/html;charset=utf-8' );
-		
-		echo 'This is index page';
+	/*
+	 * Index page
+	 */
+	public function containerAction()
+	{
+		$db = Puppy_Core_Db::getConnection ();
+		$modelManager = Puppy_Core_Model_Manager::getInstance ();
+		$modelManager->setDbConnection ( $db );
+		$modelManager->registerModel ( 'core_Forum' );
+		$forums = $modelManager->core_Forum->queryValidForum ();
+		$this->view->assign ( 'forums', json_encode ( $forums ) );
 	}
-	
-	
-	
+	/*
+	 * Side navigation
+	 */
+	public function navigationAction()
+	{
+	}
+
+	public function dashboardAction()
+	{
+	}
 }
 
 ?>

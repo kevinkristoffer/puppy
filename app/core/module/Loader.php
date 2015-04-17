@@ -45,15 +45,16 @@ class Puppy_Core_Module_Loader {
 		}
 		$router = new Zend_Controller_Router_Rewrite ();
 		
-		foreach ( $this->_moduleNames as $name )
+		foreach ( $this->_moduleNames as $moduleName )
 		{
-			$configFiles = $this->_loadRouteConfigs ( $name );
+			$configFiles = $this->_loadRouteConfigs ( $moduleName );
 			
 			foreach ( $configFiles as $file )
 			{
 				foreach ( $file as $dir => $name )
 				{
 					$config=new Zend_Config_Ini($dir.$name,'routes');
+					
 					$router->addConfig ( $config, 'routes' );
 				}
 			}

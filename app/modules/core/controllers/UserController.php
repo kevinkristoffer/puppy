@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends Zend_Controller_Action {
+class Core_UserController extends Zend_Controller_Action {
 
 	public function listAction()
 	{

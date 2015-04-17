@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>布局测试页</h1>
-<?php echo $this->render('core/_header.phtml'); ?>
+<?php echo $this->widget('layout','header'); ?>
 <?php echo $this->layout()->content; ?>
 <?php echo $this->render('core/_footer.phtml'); ?>
 </body>

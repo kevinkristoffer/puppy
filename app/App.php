@@ -34,6 +34,7 @@ class App extends Zend_Application_Bootstrap_Bootstrap {
 	{
 		$this->bootstrap ( 'FrontController' );
 		$front = $this->getResource ( 'FrontController' );
+		
 		$front->registerPlugin ( new Puppy_Core_Controller_Plugin_Ini () );
 	}
 
@@ -49,7 +50,7 @@ class App extends Zend_Application_Bootstrap_Bootstrap {
 		// Add route for index/index
 		$front->getRouter ()
 			->addRoute ( 'index', new Zend_Controller_Router_Route ( '/', array (
-				'module' => 'core',
+				'module' => 'front',
 				'controller' => 'Index',
 				'action' => 'index' ) ) );
 		

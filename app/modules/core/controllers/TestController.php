@@ -1,23 +1,10 @@
 <?php
 
 class TestController extends Zend_Controller_Action {
-	
+
 	public function test1Action()
 	{
 		$this->_helper->layout->setLayout ( 'core/layout' );
-		
-		$db = Puppy_Core_Db::getConnection ();
-		$modelManager = Puppy_Core_Model_Manager::getInstance ();
-		$modelManager->setDbConnection ( $db );
-		$modelManager->registerModel ( 'user' );
-		
-		$user = $modelManager->user->getUserDetail ( 46, array (
-				'accountname',
-				'email',
-				'rolename',
-				'comname' 
-		) );
-		$this->view->assign('currentUser',$user);
 	}
 
 	public function test2Action()
