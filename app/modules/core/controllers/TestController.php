@@ -1,6 +1,6 @@
 <?php
 
-class TestController extends Zend_Controller_Action {
+class Core_TestController extends Zend_Controller_Action {
 
 	public function test1Action()
 	{

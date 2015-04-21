@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/bui/assets/css/dpl.css">
-<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/bui/assets/css/bui.css">
-<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/bui/build/css/layout-min.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/js/bui/assets/css/dpl.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/js/bui/assets/css/bui.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/js/bui/build/css/layout-min.css">
 <title>Admin</title>
 </head>
 <body>
@@ -15,14 +15,14 @@
 </div>
 
 <!-- JS -->
-<script type="text/javascript" src="<?php echo $this->baseUrl();?>/bui/src/jquery-1.8.1.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->baseUrl();?>/bui/build/seed-min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl();?>/js/bui/src/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl();?>/js/bui/build/seed-min.js"></script>
 <script type="text/javascript">
 var baseUrl='<?php echo $this->baseUrl();?>';
+var forumData=<?php echo $this->forums; ?>;
 </script>
 <script type="text/javascript">
-var forumData='<?php echo $this->forums; ?>';
-/*var browserWidth=window.screen.width;
+var browserWidth=window.screen.width;
 var browserHeight=window.screen.height;
 $('#J_Layout').css({marginTop:browserHeight*0.025});
 
@@ -30,16 +30,12 @@ BUI.use([ 'bui/layout', 'bui/tree', 'bui/data', 'bui/tab' ], function(Layout,
 		Tree, Data, Tab) {
 	var mynav, mytree;
 	var store = new Data.TreeStore({
-		autoLoad : true,
-		url : 'data/forums.php',
-		proxy : {
-			method : 'POST'
-		},
 		pidField : 'pid',
 		root : {
 			id : 0,
 			text : '数据管理'
-		}
+		},
+		data:forumData
 	});
 	var control = new BUI.Component.Controller({
 		width : browserWidth*0.75,
@@ -49,7 +45,6 @@ BUI.use([ 'bui/layout', 'bui/tree', 'bui/data', 'bui/tab' ], function(Layout,
 		children : [ {
 			xclass : 'controller',
 			layout : {
-				title : '顶部',
 				region : 'north',
 				height : 80
 			},
@@ -75,7 +70,7 @@ BUI.use([ 'bui/layout', 'bui/tree', 'bui/data', 'bui/tab' ], function(Layout,
 		}, {
 			xclass : 'tree-list',
 			layout : {
-				title : '侧边导航',
+				title : 'Navigator',
 				region : 'west',
 				fit : 'both',
 				collapsable : true,
@@ -89,7 +84,7 @@ BUI.use([ 'bui/layout', 'bui/tree', 'bui/data', 'bui/tab' ], function(Layout,
 						var config = {
 							id : e.item.id,
 							title : e.item.text,
-							href : 'test1.html'
+							href : baseUrl+'/',
 						};
 						mynav.addTab(config);
 					}
@@ -98,7 +93,6 @@ BUI.use([ 'bui/layout', 'bui/tree', 'bui/data', 'bui/tab' ], function(Layout,
 		}, {
 			xclass : 'nav-tab',
 			layout : {
-				title : '内容',
 				region : 'center',
 				fit : 'both'
 			},
@@ -106,7 +100,7 @@ BUI.use([ 'bui/layout', 'bui/tree', 'bui/data', 'bui/tab' ], function(Layout,
 			children : [ {
 				id : 0,
 				title : '我的主页',
-				href : 'test1.html',
+				href : baseUrl+'/',
 				actived : true,
 				closeable : false
 			} ]
@@ -116,7 +110,7 @@ BUI.use([ 'bui/layout', 'bui/tree', 'bui/data', 'bui/tab' ], function(Layout,
 	control.render();
 	mynav = control.getChild('mynav');
 	mytree = control.getChild('mytree');
-});*/
+});
 </script>
 </body>
 </html>

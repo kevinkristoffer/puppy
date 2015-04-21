@@ -12,13 +12,7 @@ class Core_IndexController extends Zend_Controller_Action {
 		$modelManager->setDbConnection ( $db );
 		$modelManager->registerModel ( 'core_Forum' );
 		$forums = $modelManager->core_Forum->queryValidForum ();
-		$this->view->assign ( 'forums', json_encode ( $forums ) );
-	}
-	/*
-	 * Side navigation
-	 */
-	public function navigationAction()
-	{
+		$this->view->assign ( 'forums', json_encode ( $forums,JSON_NUMERIC_CHECK ) );
 	}
 
 	public function dashboardAction()
