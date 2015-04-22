@@ -2,20 +2,122 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/js/bui/assets/css/dpl.css">
-    <link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/js/bui/assets/css/bui.css">
+    <link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/js/bui/skin/red/css/dpl.css">
+    <link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/js/bui/skin/red/css/bui.css">
     <title>Role Management</title>
 </head>
 <body>
 <div id="role-grid" style="margin:10px;"></div>
+<div id="role-creator" class="hide">
+    <form id="add-form" class="form-horizontal">
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">Code:</label>
+                <div class="controls">
+                    <input type="text" id="a-role-code" class="input-small control-text"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">Name:</label>
+                <div class="controls">
+                    <input type="text" id="a-role-name" class="input-normal control-text"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">Status:</label>
+                <div class="controls">
+                    <select id="a-role-status" class="input-normal">
+                        <option value="Y">Valid</option>
+                        <option value="N">Invalid</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">Description:</label>
+                <div class="controls control-row4">
+                    <textarea id="a-role-desc" class="input-large"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="role-editor" class="hide">
+    <form id="edit-form" class="form-horizontal">
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">Code:</label>
+                <div class="controls">
+                    <input type="text" id="e-role-code" class="input-small control-text" disabled="disabled"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">Name:</label>
+                <div class="controls">
+                    <input type="text" id="e-role-name" class="input-normal control-text"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">Status:</label>
+                <div class="controls">
+                    <select id="e-role-status" class="input-normal">
+                        <option value="Y">Valid</option>
+                        <option value="N">Invalid</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">Description:</label>
+                <div class="controls control-row4">
+                    <textarea id="e-role-desc" class="input-large"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 <!-- JS -->
-<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/bui/src/jquery-1.8.1.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/bui/build/seed-min.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/jquery/jquery-1.11.0.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/bui/skin/red/seed-min.js"></script>
 <script type="text/javascript">
     var baseUrl="<?php echo $this->baseUrl(); ?>";
 </script>
 <script type="text/javascript">
-    BUI.use(['bui/data','bui/grid'],function(Data,Grid){
+    BUI.use(['bui/data','bui/grid','bui/overlay','bui/form'],function(Data,Grid,Overlay,Form){
+        var addForm=new Form.HForm({
+            srcNode:'#add-form'
+        }).render();
+        var addDialog=new Overlay.Dialog({
+            title:'New User Group',
+            width:500,
+            height:250,
+            contentId:'role-creator',
+            success:function(){
+                alert('Hello');
+            }
+        });
+        var editForm=new Form.HForm({
+            srcNode:'#edit-form'
+        }).render();
+        var editDialog=new Overlay.Dialog({
+            title:'Edit User Group',
+            width:500,
+            height:250,
+            contentId:'role-editor',
+            success:function(){
+                alert('Hello');
+            }
+        });
         var store=new Data.Store({
             url:baseUrl+'/core/role/list',
             proxy:{
@@ -47,18 +149,7 @@
                     text:'New',
                     listeners:{
                         click:function(){
-                            alert('Clicked New Button');
-                        }
-                    }
-                },{
-                    btnCls:'button button-small',
-                    text:'Edit',
-                    listeners:{
-                        click:function(){
-                            var item=grid.getSelected();
-                            if(item!=null){
-                                alert('选择了'+item.rolename);
-                            }
+                            addDialog.show();
                         }
                     }
                 }]
@@ -70,7 +161,15 @@
             var field=ev.field;
             var target=$(ev.domTarget);
             if(target.hasClass('edit-handler')){
-                alert('Edit Role:'+record.rolecode);
+                $.post(baseUrl+'/core/role/detail',{code:record.rolecode},function(data){
+                    if(data){
+                        $('#e-role-code').val(data.rolecode);
+                        $('#e-role-name').val(data.rolename);
+                        $('#e-role-status').val(data.validflag);
+                        $('#e-role-desc').val(data.description);
+                        editDialog.show();
+                    }
+                },'json');
             }
         });
     });

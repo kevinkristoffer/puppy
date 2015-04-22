@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- 主机:                           127.0.0.1
--- 服务器版本:                        5.5.39-MariaDB - mariadb.org binary distribution
--- 服务器操作系统:                      Win32
--- HeidiSQL 版本:                  8.3.0.4713
+-- 服务器版本:                        5.5.36-MariaDB - mariadb.org binary distribution
+-- 服务器操作系统:                      Win64
+-- HeidiSQL 版本:                  8.3.0.4694
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -11,11 +11,13 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 -- 导出 puppy 的数据库结构
+DROP DATABASE IF EXISTS `puppy`;
 CREATE DATABASE IF NOT EXISTS `puppy` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `puppy`;
 
 
 -- 导出  表 puppy.pp_company 结构
+DROP TABLE IF EXISTS `pp_company`;
 CREATE TABLE IF NOT EXISTS `pp_company` (
   `comcode` char(6) NOT NULL,
   `comname` varchar(30) NOT NULL,
@@ -23,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `pp_company` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- 正在导出表  puppy.pp_company 的数据：~15 rows (大约)
+DELETE FROM `pp_company`;
 /*!40000 ALTER TABLE `pp_company` DISABLE KEYS */;
 INSERT INTO `pp_company` (`comcode`, `comname`) VALUES
 	('330205', '江北'),
@@ -44,6 +47,7 @@ INSERT INTO `pp_company` (`comcode`, `comname`) VALUES
 
 
 -- 导出  表 puppy.pp_core_forum 结构
+DROP TABLE IF EXISTS `pp_core_forum`;
 CREATE TABLE IF NOT EXISTS `pp_core_forum` (
   `forumid` int(11) NOT NULL AUTO_INCREMENT,
   `parentid` int(11) DEFAULT NULL,
@@ -52,38 +56,23 @@ CREATE TABLE IF NOT EXISTS `pp_core_forum` (
   `url` varchar(100) DEFAULT NULL,
   `validstatus` enum('0','1') DEFAULT '1',
   PRIMARY KEY (`forumid`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- 正在导出表  puppy.pp_core_forum 的数据：~23 rows (大约)
+DELETE FROM `pp_core_forum`;
 /*!40000 ALTER TABLE `pp_core_forum` DISABLE KEYS */;
 INSERT INTO `pp_core_forum` (`forumid`, `parentid`, `forumname`, `forumorder`, `url`, `validstatus`) VALUES
-	(1, 0, '保费查询', 1, '', '1'),
-	(2, 0, '理赔查询', 4, '', '1'),
-	(3, 1, '保费汇总表', 1, 'premium/company/premium.do', '1'),
-	(4, 1, '日保费查询', 2, 'premium/daily/premium.do', '1'),
-	(5, 18, '车型保有量查询', 1, 'premium/model/premium.do', '1'),
-	(6, 2, '定损查询', 1, 'claim/channel-sumpaid.do', '1'),
-	(7, 23, '保费进度走势监控', 3, 'daily-progress.do', '1'),
-	(8, 0, '续保监控', 2, NULL, '1'),
-	(9, 8, '经营单位续保率', 1, 'premium/company/renewal.do', '1'),
-	(10, 8, '经销店续保率', 1, 'premium/branch/renewal.do', '1'),
-	(11, 20, '车型满期赔付率', 2, 'claim/model-loss-rate.do', '1'),
-	(12, 20, '经销店满期赔付率', 1, 'claim/shop-loss-rate.do', '1'),
-	(13, 1, '零产能/低产能店监控', 3, 'premium/low-capacity.do', '1'),
-	(14, 0, '权限管理', 3, 'auth/set-user-auth.do', '1'),
-	(15, 0, '用户管理', 1, 'auth/user-manage.do', '1'),
-	(16, 0, '角色管理', 2, 'auth/role-manage.do', '1'),
-	(17, 0, '公告管理', 4, 'dp/notice-manage.do', '1'),
-	(18, 0, '其他常用查询', 6, NULL, '1'),
-	(19, 18, '险种投保比例监控', 2, 'premium/kind-ratio.do', '1'),
-	(20, 0, '赔付监控', 3, NULL, '1'),
-	(21, 0, '进度监控', 5, NULL, '0'),
-	(22, 7, '电销网销比例监控', 3, 'premium/dx-ratio.do', '1'),
-	(23, 1, '进度监控', 0, NULL, '1');
+	(1, 0, 'Dashboard', 1, '/core/dashboard', '1'),
+	(2, 0, 'Administrators', 2, NULL, '1'),
+	(3, 2, 'Users', 1, NULL, '1'),
+	(4, 2, 'Roles', 2, '/core/role', '1'),
+	(5, 2, 'Privileges', 3, NULL, '1'),
+	(6, 0, 'Models', 3, NULL, '1');
 /*!40000 ALTER TABLE `pp_core_forum` ENABLE KEYS */;
 
 
 -- 导出  表 puppy.pp_core_role 结构
+DROP TABLE IF EXISTS `pp_core_role`;
 CREATE TABLE IF NOT EXISTS `pp_core_role` (
   `rolecode` char(2) NOT NULL,
   `rolename` varchar(20) NOT NULL,
@@ -93,14 +82,19 @@ CREATE TABLE IF NOT EXISTS `pp_core_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 正在导出表  puppy.pp_core_role 的数据：~2 rows (大约)
+DELETE FROM `pp_core_role`;
 /*!40000 ALTER TABLE `pp_core_role` DISABLE KEYS */;
 INSERT INTO `pp_core_role` (`rolecode`, `rolename`, `description`, `validflag`) VALUES
 	('CE', 'Content Editor', 'Content Editor', 'Y'),
-	('SU', 'Super Admin', 'Super admin', 'Y');
+	('SA', 'Super Admin', 'Super admin', 'Y'),
+	('TA', 'Temp Admin A', 'Temp Admin', 'N'),
+	('TB', 'Temp Admin B', 'Temp Admin', 'N'),
+	('TC', 'Temp Admin C', 'Temp Admin', 'N');
 /*!40000 ALTER TABLE `pp_core_role` ENABLE KEYS */;
 
 
 -- 导出  表 puppy.pp_core_user 结构
+DROP TABLE IF EXISTS `pp_core_user`;
 CREATE TABLE IF NOT EXISTS `pp_core_user` (
   `authid` char(8) NOT NULL,
   `credential` varchar(32) NOT NULL,
@@ -111,14 +105,16 @@ CREATE TABLE IF NOT EXISTS `pp_core_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 正在导出表  puppy.pp_core_user 的数据：~2 rows (大约)
+DELETE FROM `pp_core_user`;
 /*!40000 ALTER TABLE `pp_core_user` DISABLE KEYS */;
 INSERT INTO `pp_core_user` (`authid`, `credential`, `accountname`, `rolecode`, `validflag`) VALUES
 	('07256985', '25f9e794323b453885f5181f1b624d0b', 'Catherine Jason', 'CE', 'N'),
-	('13150297', '1d42abef5a4a5748edf45448bc8d64c5', 'Josh Hu', 'SU', 'Y');
+	('13150297', '1d42abef5a4a5748edf45448bc8d64c5', 'Josh Hu', 'SA', 'Y');
 /*!40000 ALTER TABLE `pp_core_user` ENABLE KEYS */;
 
 
 -- 导出  表 puppy.pp_request_log 结构
+DROP TABLE IF EXISTS `pp_request_log`;
 CREATE TABLE IF NOT EXISTS `pp_request_log` (
   `requestid` char(32) NOT NULL,
   `requesturi` varchar(200) NOT NULL,
@@ -131,7 +127,8 @@ CREATE TABLE IF NOT EXISTS `pp_request_log` (
   KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
--- 正在导出表  puppy.pp_request_log 的数据：~13,675 rows (大约)
+-- 正在导出表  puppy.pp_request_log 的数据：~13,610 rows (大约)
+DELETE FROM `pp_request_log`;
 /*!40000 ALTER TABLE `pp_request_log` DISABLE KEYS */;
 INSERT INTO `pp_request_log` (`requestid`, `requesturi`, `method`, `ipaddress`, `userid`, `createtime`) VALUES
 	('000030730a008723f08796b9bbc831ba', '/cardealer/u/captcha.do', 'GET', '36.1.36.69', 0, '2015-03-03 09:26:31'),
@@ -13704,6 +13701,7 @@ INSERT INTO `pp_request_log` (`requestid`, `requesturi`, `method`, `ipaddress`, 
 
 
 -- 导出  表 puppy.pp_role 结构
+DROP TABLE IF EXISTS `pp_role`;
 CREATE TABLE IF NOT EXISTS `pp_role` (
   `rolecode` char(2) NOT NULL,
   `rolename` varchar(50) NOT NULL,
@@ -13713,6 +13711,7 @@ CREATE TABLE IF NOT EXISTS `pp_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- 正在导出表  puppy.pp_role 的数据：~8 rows (大约)
+DELETE FROM `pp_role`;
 /*!40000 ALTER TABLE `pp_role` DISABLE KEYS */;
 INSERT INTO `pp_role` (`rolecode`, `rolename`, `description`, `validstatus`) VALUES
 	('DM', '普通管理员', '比本部工作人员多了公告管理和用户管理', 1),
@@ -13727,6 +13726,7 @@ INSERT INTO `pp_role` (`rolecode`, `rolename`, `description`, `validstatus`) VAL
 
 
 -- 导出  表 puppy.pp_user 结构
+DROP TABLE IF EXISTS `pp_user`;
 CREATE TABLE IF NOT EXISTS `pp_user` (
   `userid` int(11) NOT NULL AUTO_INCREMENT,
   `accountname` varchar(50) NOT NULL,
@@ -13746,6 +13746,7 @@ CREATE TABLE IF NOT EXISTS `pp_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- 正在导出表  puppy.pp_user 的数据：~55 rows (大约)
+DELETE FROM `pp_user`;
 /*!40000 ALTER TABLE `pp_user` DISABLE KEYS */;
 INSERT INTO `pp_user` (`userid`, `accountname`, `email`, `userpass`, `rolecode`, `ipaddress`, `autologin`, `regdate`, `relogindate`, `lastlogin`, `validstatus`, `resetpwdflag`, `comcode`) VALUES
 	(1, '胡建鸿', 'hujianhong05@ningb.picc.com.cn', '1d42abef5a4a5748edf45448bc8d64c5', 'SA', '36.1.36.69', 1, '2015-01-21', '2015-04-16', '2015-04-02 13:22:55', 1, 1, ''),

@@ -9,8 +9,7 @@ class Puppy_Model_Core_Forum extends Puppy_Core_Model {
 			" where validstatus='1' order by forumorder asc )".
 			" then 0 else 1 end leaf from `".$this->_prefix."core_forum` ".
 			" where validstatus='1' order by forumorder asc";
-		$result = $this->_db->query ( $sql )
-			->fetchAll ();
+		$result = $this->_db->query ( $sql )->fetchAll ();
 		return $result;
 	}
 }
