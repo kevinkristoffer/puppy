@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>复杂控件演示</title>
+<link rel="stylesheet" href="bui-master/assets/css/dpl.css">
+<link rel="stylesheet" href="bui-master/assets/css/bui.css">
+</head>
+
+<body>
+<div class="container">
+  <div class="row">
+    <div class="span16">
+      <div id="grid"></div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="span8" style="margin-top:10px;">
+      <h5>延迟加载树结构</h5>
+      <p><button id="button1" class="button button-small">查看数据</button></p>
+      <div id="tree1"></div>
+    </div>
+    <div class="span8" style="margin-top:10px;">
+      <h5>一次性加载树结构</h5>
+      <p><button id="button2" class="button button-small">查看数据</button></p>
+      <div id="tree2"></div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="span8" style="margin-top:10px;">
+      <h5>树形下拉框</h5>
+      <p><input type="text" id="tb1"/><input type="hidden" id="tb1-value"/></p>
+    </div>
+  </div>
+</div>
+
+<!-- JS -->
+<script type="text/javascript" src="bui-master/src/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="bui-master/build/seed-min.js"></script>
+<script type="text/javascript">
+BUI.use(['bui/data','bui/grid'],function(Data,Grid){
+	var store=new Data.Store({
+		url:'data/users.php',
+		proxy:{
+			method:'POST'
+		},
+		autoLoad:true,
+		pageSize:8
+	}),
+	columns=[{
+		title:'用户编号',dataIndex:'userid',width:80
+	},{
+		title:'用户姓名',dataIndex:'accountname',width:80
+	},{
+		title:'用户邮箱',dataIndex:'email',width:300
+	},{
+		title:'用户组',dataIndex:'rolename',width:80
+	}],
+	grid=new Grid.Grid({
+		render:'#grid',
+		//width:600,
+		columns:columns,
+		loadMask:true,
+		store:store,
+		tbar:{
+			items:[{
+				btnCls:'button button-small',
+				text:'新建',
+				listeners:{
+					click:function(){
+						alert('点击添加按钮');
+					}
+				}
+			},{
+				btnCls:'button button-small',
+				text:'导出',
+				listeners:{
+					click:function(){
+						alert('点击导出按钮');
+					}
+				}
+			},{
+				btnCls:'button button-small',
+				text:'编辑',
+				listeners:{
+					click:function(){
+						var item=grid.getSelected();
+						if(item!=null){
+							alert('选择了'+item.accountname);
+						}
+					}
+				}
+			}]
+		},
+		bbar:{
+			pagingBar:true
+			//pagingBar:{
+			//	xclass:'pagingbar-number' 
+			//}
+		},
+		//plugins : [Grid.Plugins.CheckSelection,Grid.Plugins.ColumnResize],
+		autoRender:true
+	});
+});
+//********************************************************//
+BUI.use(['bui/extensions/treepicker','bui/tree','bui/data'],function(TreePicker,Tree,Data){
+	var store1=new Data.TreeStore({
+		autoLoad:true,
+		url:'data/forums.php',
+		proxy:{
+			method:'POST'
+		},
+		pidField:'pid',
+		root:{
+			id:0,
+			text:'数据管理'
+		}
+	}),
+	tree1=new Tree.TreeList({
+		render:'#tree1',
+		showLine:true,
+		height:200,
+		store:store1,
+		showRoot:true,
+		checkType:'all',
+		autoRender:true
+	});
+	$('#button1').bind('click',function(){
+		getCheckedNodes(tree1);
+	});
+	//通过ajax查询pid一次性加载
+	$.post('data/forums2.php',{},function(data){
+		if(data=='')
+			return;
+		var store2=new Data.TreeStore({
+			pidField:'pid',
+			root:{
+				id:0,
+				text:'数据管理'
+			},
+			data:data
+		}),
+		tree2=new Tree.TreeList({
+			render:'#tree2',
+			showLine:true,
+			height:200,
+			store:store2,
+			showRoot:true,
+			checkType:'all',
+			autoRender:true
+		});
+		var children=tree2.getItem(0).children;
+		var node=tree2.findNode(0);
+		tree2.expandNode(node);
+		expandAll(tree2,children);
+		$('#button2').bind('click',function(){
+			getCheckedNodes(tree2);
+		});
+	});
+	var getCheckedNodes=function(tree){
+		var nodes=tree.getCheckedNodes();
+		var str='';
+		BUI.each(nodes,function(node){
+			str+=node.text+',';
+		});
+		alert(str);
+	};
+	//递归展开全部
+	var expandAll=function(tree,children){
+		if(!(children instanceof Array && children.length>0))
+			return;
+		BUI.each(children,function(child){
+			if(child.leaf==undefined || child.leaf)
+				return;
+			var node=tree.findNode(child.id);
+			tree.expandNode(node);
+			expandAll(tree,child.children);
+		});
+	};
+	//tree picker
+	var store3=new Data.TreeStore({
+		autoLoad:true,
+		url:'data/forums.php',
+		proxy:{
+			method:'POST'
+		},
+		pidField:'pid',
+		root:{
+			id:0,
+			text:'数据管理'
+		}
+	}),
+	tree3=new Tree.TreeList({
+		showLine:true,
+		store:store3
+		//checkType:'none'
+	}),
+	picker=new TreePicker({
+		trigger:'#tb1',
+		valueField:'#tb1-value',
+		width:250,
+		children:[tree3],
+		listeners:{
+			selectedchange:function(e){
+				if(e.item!=null){
+					alert("选择了："+e.item.text);
+				}
+			}
+		}
+	});
+	picker.render();
+});
+
+
+</script>
+</body>
+</html>
