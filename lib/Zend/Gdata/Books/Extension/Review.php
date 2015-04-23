@@ -75,7 +75,7 @@ class Zend_Gdata_Books_Extension_Review extends Zend_Gdata_Extension
     {
         $element = parent::getDOM($doc);
         if ($this->_lang !== null) {
-            $element->setAttribute('lang', $this->_lang);
+            $element->setAttribute('languages', $this->_lang);
         }
         if ($this->_type !== null) {
             $element->setAttribute('type', $this->_type);
@@ -92,7 +92,7 @@ class Zend_Gdata_Books_Extension_Review extends Zend_Gdata_Extension
     protected function takeAttributeFromDOM($attribute)
     {
         switch ($attribute->localName) {
-        case 'lang':
+        case 'languages':
             $this->_lang = $attribute->nodeValue;
             break;
         case 'type':
@@ -106,7 +106,7 @@ class Zend_Gdata_Books_Extension_Review extends Zend_Gdata_Extension
     /**
      * Returns the language of link title
      *
-     * @return string The lang
+     * @return string The languages
      */
     public function getLang()
     {

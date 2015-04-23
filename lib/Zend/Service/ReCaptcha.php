@@ -104,7 +104,7 @@ class Zend_Service_ReCaptcha extends Zend_Service_Abstract
      */
     protected $_options = array(
         'theme' => 'red',
-        'lang' => 'en',
+        'languages' => 'en',
     );
 
     /**

@@ -240,7 +240,7 @@ class Zend_Service_Yahoo
      * 'results'    => int  How many results to return, max is 50
      * 'start'      => int  The start offset for search results
      * 'sort'       => (rank|date)  How to order your results
-     * 'language'   => lang  The target document language to match
+     * 'language'   => languages  The target document language to match
      * 'type'       => (all|any|phrase)  How the query should be parsed
      * 'site'       => string  A site to which your search should be restricted
      *
@@ -392,7 +392,7 @@ class Zend_Service_Yahoo
      * specified consist of:
      * 'results'    => int  How many results to return, max is 50
      * 'start'      => int  The start offset for search results
-     * 'language'   => lang  The target document language to match
+     * 'language'   => languages  The target document language to match
      * 'type'       => (all|any|phrase)  How the query should be parsed
      * 'site'       => string  A site to which your search should be restricted
      * 'format'     => (any|html|msword|pdf|ppt|rss|txt|xls)

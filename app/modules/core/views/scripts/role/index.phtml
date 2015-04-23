@@ -9,28 +9,28 @@
 <body>
 <div id="role-grid" style="margin:10px;"></div>
 <div id="role-creator" class="hide">
-    <form id="add-form" class="form-horizontal">
+    <form id="add-form" class="form-horizontal" action="<?php echo $this->baseUrl(); ?>/core/role/add" method="post">
         <div class="row">
             <div class="control-group span8">
-                <label class="control-label">Code:</label>
+                <label class="control-label"><?php echo $this->translator('role_code_label'); ?></label>
                 <div class="controls">
-                    <input type="text" id="a-role-code" class="input-small control-text"/>
+                    <input type="text" id="a-role-code" name="role-code" class="input-small control-text" data-messages="{regexp:'Invalid Role Code'}" data-rules="{required:true,regexp:/^[A-Z]{2}$/}"/>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="control-group span8">
-                <label class="control-label">Name:</label>
+                <label class="control-label"><?php echo $this->translator('role_name_label'); ?></label>
                 <div class="controls">
-                    <input type="text" id="a-role-name" class="input-normal control-text"/>
+                    <input type="text" id="a-role-name" name="role-name" class="input-normal control-text" data-rules="{required:true,maxlength:20}"/>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="control-group span8">
-                <label class="control-label">Status:</label>
+                <label class="control-label"><?php echo $this->translator('role_status_label'); ?></label>
                 <div class="controls">
-                    <select id="a-role-status" class="input-normal">
+                    <select id="a-role-status" name="role-status" class="input-normal">
                         <option value="Y">Valid</option>
                         <option value="N">Invalid</option>
                     </select>
@@ -39,9 +39,9 @@
         </div>
         <div class="row">
             <div class="control-group span15">
-                <label class="control-label">Description:</label>
+                <label class="control-label"><?php echo $this->translator('role_desc_label'); ?></label>
                 <div class="controls control-row4">
-                    <textarea id="a-role-desc" class="input-large"></textarea>
+                    <textarea id="a-role-desc" name="role-desc" class="input-large" data-rules="{maxlength:100}"></textarea>
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@
     <form id="edit-form" class="form-horizontal">
         <div class="row">
             <div class="control-group span8">
-                <label class="control-label">Code:</label>
+                <label class="control-label"><?php echo $this->translator('role_code_label'); ?></label>
                 <div class="controls">
                     <input type="text" id="e-role-code" class="input-small control-text" disabled="disabled"/>
                 </div>
@@ -59,7 +59,7 @@
         </div>
         <div class="row">
             <div class="control-group span8">
-                <label class="control-label">Name:</label>
+                <label class="control-label"><?php echo $this->translator('role_name_label'); ?></label>
                 <div class="controls">
                     <input type="text" id="e-role-name" class="input-normal control-text"/>
                 </div>
@@ -67,7 +67,7 @@
         </div>
         <div class="row">
             <div class="control-group span8">
-                <label class="control-label">Status:</label>
+                <label class="control-label"><?php echo $this->translator('role_status_label'); ?></label>
                 <div class="controls">
                     <select id="e-role-status" class="input-normal">
                         <option value="Y">Valid</option>
@@ -78,7 +78,7 @@
         </div>
         <div class="row">
             <div class="control-group span15">
-                <label class="control-label">Description:</label>
+                <label class="control-label"><?php echo $this->translator('role_desc_label'); ?></label>
                 <div class="controls control-row4">
                     <textarea id="e-role-desc" class="input-large"></textarea>
                 </div>
@@ -86,6 +86,7 @@
         </div>
     </form>
 </div>
+
 <!-- JS -->
 <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/jquery/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/bui/skin/red/seed-min.js"></script>
@@ -94,22 +95,37 @@
 </script>
 <script type="text/javascript">
     BUI.use(['bui/data','bui/grid','bui/overlay','bui/form'],function(Data,Grid,Overlay,Form){
-        var addForm=new Form.HForm({
-            srcNode:'#add-form'
+        var addForm,editForm,addDialog,editDialog,store,columns,grid;
+        addForm=new Form.HForm({
+            srcNode:'#add-form',
+            submitType:'ajax',
+            callback:function(data){
+                if(data.success){
+                    BUI.Message.Alert(data.info,'success');
+                    $('#a-role-code').val('');
+                    $('#a-role-name').val('');
+                    $('#a-role-status').val('Y');
+                    $('#a-role-desc').val('');
+                    addDialog.close();
+                    store.load();
+                }else{
+                    BUI.Message.Alert(data.info,'error');
+                }
+            }
         }).render();
-        var addDialog=new Overlay.Dialog({
+        addDialog=new Overlay.Dialog({
             title:'New User Group',
             width:500,
             height:250,
             contentId:'role-creator',
             success:function(){
-                alert('Hello');
+                addForm.submit();
             }
         });
-        var editForm=new Form.HForm({
+        editForm=new Form.HForm({
             srcNode:'#edit-form'
         }).render();
-        var editDialog=new Overlay.Dialog({
+        editDialog=new Overlay.Dialog({
             title:'Edit User Group',
             width:500,
             height:250,
@@ -118,14 +134,14 @@
                 alert('Hello');
             }
         });
-        var store=new Data.Store({
+        store=new Data.Store({
             url:baseUrl+'/core/role/list',
             proxy:{
                 method:'POST'
             },
             autoLoad:true
         });
-        var columns=[{
+        columns=[{
             title:'Role Code',dataIndex:'rolecode',width:100,elCls:'center'
         },{
             title:'Role Name',dataIndex:'rolename',width:150,elCls:'center'
@@ -136,7 +152,7 @@
                 return '<span class="grid-command edit-handler">edit</span>';
             }
         }];
-        var grid=new Grid.Grid({
+        grid=new Grid.Grid({
             render:'#role-grid',
             width:510,
             columns:columns,

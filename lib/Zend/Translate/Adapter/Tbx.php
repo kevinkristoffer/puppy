@@ -95,8 +95,8 @@ class Zend_Translate_Adapter_Tbx extends Zend_Translate_Adapter {
                     $this->_termentry = null;
                     break;
                 case 'langset':
-                    if (isset($attrib['xml:lang']) === true) {
-                        $this->_langset = $attrib['xml:lang'];
+                    if (isset($attrib['xml:languages']) === true) {
+                        $this->_langset = $attrib['xml:languages'];
                         if (isset($this->_data[$this->_langset]) === false) {
                             $this->_data[$this->_langset] = array();
                         }

@@ -180,7 +180,7 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
      * (.PT) Portugal https://online.dns.pt/dns_2008/do?com=DS;8216320233;111;+PAGE(4000058)+K-CAT-CODIGO(C.125)+RCNT(100);
      * (.RU) Russia http://www.iana.org/domains/idn-tables/tables/ru_ru-ru_1.0.html
      * (.SA) Saudi Arabia http://www.iana.org/domains/idn-tables/tables/sa_ar_1.0.html
-     * (.SE) Sweden http://www.iis.se/english/IDN_campaignsite.shtml?lang=en
+     * (.SE) Sweden http://www.iis.se/english/IDN_campaignsite.shtml?languages=en
      * (.SH) Saint Helena http://www.nic.sh/SH-IDN-Policy.pdf
      * (.SJ) Svalbard and Jan Mayen http://www.norid.no/domeneregistrering/idn/idn_nyetegn.en.html
      * (.TH) Thailand http://www.iana.org/domains/idn-tables/tables/th_th-th_1.0.html

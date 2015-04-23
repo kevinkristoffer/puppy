@@ -79,7 +79,7 @@ class Zend_Markup_Renderer_Html extends Zend_Markup_Renderer_RendererAbstract
         'id'    => '',
         'class' => '',
         'style' => '',
-        'lang'  => '',
+        'languages'  => '',
         'title' => ''
     );
 

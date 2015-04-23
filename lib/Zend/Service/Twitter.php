@@ -697,7 +697,7 @@ class Zend_Service_Twitter
      *
      * $options may include any of the following:
      * - geocode: a string of the form "latitude, longitude, radius"
-     * - lang: restrict tweets to the two-letter language code
+     * - languages: restrict tweets to the two-letter language code
      * - locale: query is in the given two-letter language code
      * - result_type: what type of results to receive: mixed, recent, or popular
      * - count: number of tweets to return per page; up to 100
@@ -747,14 +747,14 @@ class Zend_Service_Twitter
                     $longitude = (float) $longitude;
                     $params['geocode'] = $latitude . ',' . $longitude . ',' . $radius;
                     break;
-                case 'lang':
+                case 'languages':
                     if (strlen($value) > 2) {
                         require_once 'Zend/Service/Twitter/Exception.php';
                         throw new Zend_Service_Twitter_Exception(
                             'Query language must be a 2 character string'
                         );
                     }
-                    $params['lang'] = strtolower($value);
+                    $params['languages'] = strtolower($value);
                     break;
                 case 'locale':
                     if (strlen($value) > 2) {

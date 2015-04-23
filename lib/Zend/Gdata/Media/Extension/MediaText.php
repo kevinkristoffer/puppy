@@ -99,7 +99,7 @@ class Zend_Gdata_Media_Extension_MediaText extends Zend_Gdata_Extension
             $element->setAttribute('type', $this->_type);
         }
         if ($this->_lang !== null) {
-            $element->setAttribute('lang', $this->_lang);
+            $element->setAttribute('languages', $this->_lang);
         }
         if ($this->_start !== null) {
             $element->setAttribute('start', $this->_start);
@@ -123,7 +123,7 @@ class Zend_Gdata_Media_Extension_MediaText extends Zend_Gdata_Extension
         case 'type':
             $this->_type = $attribute->nodeValue;
             break;
-        case 'lang':
+        case 'languages':
             $this->_lang = $attribute->nodeValue;
             break;
         case 'start':

@@ -16,7 +16,7 @@ var seajs = global.seajs = {
 var data = seajs.data = {}
 
 /**
- * util-lang.js - The minimal language enhancement
+ * util-languages.js - The minimal language enhancement
  */
 
 function isType(type) {

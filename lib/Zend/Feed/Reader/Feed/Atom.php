@@ -239,7 +239,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
         $language = $this->getExtension('Atom')->getLanguage();
 
         if (!$language) {
-            $language = $this->_xpath->evaluate('string(//@xml:lang[1])');
+            $language = $this->_xpath->evaluate('string(//@xml:languages[1])');
         }
 
         if (!$language) {

@@ -194,7 +194,7 @@ class Zend_Gdata_Media_Extension_MediaContent extends Zend_Gdata_Extension
             $element->setAttribute('width', $this->_width);
         }
         if ($this->_lang !== null) {
-            $element->setAttribute('lang', $this->_lang);
+            $element->setAttribute('languages', $this->_lang);
         }
         return $element;
     }
@@ -248,7 +248,7 @@ class Zend_Gdata_Media_Extension_MediaContent extends Zend_Gdata_Extension
             case 'width':
                 $this->_width = $attribute->nodeValue;
                 break;
-            case 'lang':
+            case 'languages':
                 $this->_lang = $attribute->nodeValue;
                 break;
             default:

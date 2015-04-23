@@ -277,10 +277,10 @@ class Zend_Feed_Reader_Extension_Atom_Feed
             return $this->_data['language'];
         }
 
-        $language = $this->_xpath->evaluate('string(' . $this->getXpathPrefix() . '/atom:lang)');
+        $language = $this->_xpath->evaluate('string(' . $this->getXpathPrefix() . '/atom:languages)');
 
         if (!$language) {
-            $language = $this->_xpath->evaluate('string(//@xml:lang[1])');
+            $language = $this->_xpath->evaluate('string(//@xml:languages[1])');
         }
 
         if (!$language) {

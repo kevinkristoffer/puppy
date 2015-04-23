@@ -44,7 +44,7 @@ class Zend_View_Helper_HeadStyle extends Zend_View_Helper_Placeholder_Container_
      * Allowed optional attributes
      * @var array
      */
-    protected $_optionalAttributes = array('lang', 'title', 'media', 'dir');
+    protected $_optionalAttributes = array('languages', 'title', 'media', 'dir');
 
     /**
      * Allowed media types

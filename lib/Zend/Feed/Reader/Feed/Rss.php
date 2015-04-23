@@ -483,7 +483,7 @@ class Zend_Feed_Reader_Feed_Rss extends Zend_Feed_Reader_FeedAbstract
         }
 
         if (!$language) {
-            $language = $this->_xpath->evaluate('string(//@xml:lang[1])');
+            $language = $this->_xpath->evaluate('string(//@xml:languages[1])');
         }
 
         if (!$language) {

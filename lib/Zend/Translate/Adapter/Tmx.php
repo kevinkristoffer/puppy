@@ -126,19 +126,19 @@ class Zend_Translate_Adapter_Tmx extends Zend_Translate_Adapter {
                     }
                     break;
                 case 'tuv':
-                    if (isset($attrib['xml:lang'])) {
-                        if (Zend_Locale::isLocale($attrib['xml:lang'])) {
-                            $this->_tuv = Zend_Locale::findLocale($attrib['xml:lang']);
+                    if (isset($attrib['xml:languages'])) {
+                        if (Zend_Locale::isLocale($attrib['xml:languages'])) {
+                            $this->_tuv = Zend_Locale::findLocale($attrib['xml:languages']);
                         } else {
                             if (!$this->_options['disableNotices']) {
                                 if ($this->_options['log']) {
-                                    $this->_options['log']->notice("The language '{$attrib['xml:lang']}' can not be set because it does not exist.");
+                                    $this->_options['log']->notice("The language '{$attrib['xml:languages']}' can not be set because it does not exist.");
                                 } else {
-                                    trigger_error("The language '{$attrib['xml:lang']}' can not be set because it does not exist.", E_USER_NOTICE);
+                                    trigger_error("The language '{$attrib['xml:languages']}' can not be set because it does not exist.", E_USER_NOTICE);
                                 }
                             }
 
-                            $this->_tuv = $attrib['xml:lang'];
+                            $this->_tuv = $attrib['xml:languages'];
                         }
 
                         if (!isset($this->_data[$this->_tuv])) {

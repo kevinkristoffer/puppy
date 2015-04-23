@@ -64,7 +64,7 @@ class Zend_Feed_Writer_Renderer_Feed_Atom_AtomAbstract
     protected function _setLanguage(DOMDocument $dom, DOMElement $root)
     {
         if ($this->getDataContainer()->getLanguage()) {
-            $root->setAttribute('xml:lang', $this->getDataContainer()
+            $root->setAttribute('xml:languages', $this->getDataContainer()
                 ->getLanguage());
         }
     }
