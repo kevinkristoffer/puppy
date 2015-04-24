@@ -44,9 +44,22 @@ class Puppy_Model_Core_Role extends Puppy_Core_Model
      * @return int
      * @throws Zend_Db_Adapter_Exception
      */
-    public function updateRole($set,$where)
+    public function updateRole($set, $where)
     {
-        $affectedRows=$this->_db->update($this->_prefix.'core_role',$set,$where);
+        $affectedRows = $this->_db->update($this->_prefix . 'core_role', $set, $where);
         return $affectedRows;
+    }
+
+    /**
+     * @param string $rolecode
+     * @return int
+     */
+    public function countRoleUser($rolecode)
+    {
+        $select = $this->_db->select()
+            ->from(array('a' => $this->_prefix . 'core_user'), array('total' => 'count(*)'))
+            ->where('rolecode=?', $rolecode);
+        $result = $select->query()->fetch();
+        return $result->total;
     }
 }

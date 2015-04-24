@@ -18,4 +18,14 @@ class Puppy_Model_Core_User extends Puppy_Core_Model
         $rs = $select->query()->fetch();
         return $rs;
     }
+
+    public function queryUserList()
+    {
+
+    }
+
+    public function queryUserDetail()
+    {
+
+    }
 }

@@ -48,7 +48,7 @@
     </form>
 </div>
 <div id="role-editor" class="hide">
-    <form id="edit-form" class="form-horizontal">
+    <form id="edit-form" class="form-horizontal" action="<?php echo $this->baseUrl(); ?>/core/role/edit" method="post">
         <div class="row">
             <div class="control-group span8">
                 <label class="control-label"><?php echo $this->translator('role_code_label'); ?></label>
@@ -61,7 +61,7 @@
             <div class="control-group span8">
                 <label class="control-label"><?php echo $this->translator('role_name_label'); ?></label>
                 <div class="controls">
-                    <input type="text" id="e-role-name" class="input-normal control-text"/>
+                    <input type="text" id="e-role-name" name="role-name" class="input-normal control-text" data-rules="{required:true,maxlength:20}"/>
                 </div>
             </div>
         </div>
@@ -69,7 +69,7 @@
             <div class="control-group span8">
                 <label class="control-label"><?php echo $this->translator('role_status_label'); ?></label>
                 <div class="controls">
-                    <select id="e-role-status" class="input-normal">
+                    <select id="e-role-status" name="role-status" class="input-normal">
                         <option value="Y">Valid</option>
                         <option value="N">Invalid</option>
                     </select>
@@ -80,10 +80,11 @@
             <div class="control-group span15">
                 <label class="control-label"><?php echo $this->translator('role_desc_label'); ?></label>
                 <div class="controls control-row4">
-                    <textarea id="e-role-desc" class="input-large"></textarea>
+                    <textarea id="e-role-desc" name="role-desc" class="input-large" data-rules="{maxlength:100}"></textarea>
                 </div>
             </div>
         </div>
+        <input type="hidden" id="h-role-code" name="role-code"/>
     </form>
 </div>
 
@@ -123,7 +124,17 @@
             }
         });
         editForm=new Form.HForm({
-            srcNode:'#edit-form'
+            srcNode:'#edit-form',
+            submitType:'ajax',
+            callback:function(data){
+                if(data.success){
+                    BUI.Message.Alert(data.info,'success');
+                    editDialog.close();
+                    store.load();
+                }else{
+                    BUI.Message.Alert(data.info,'error');
+                }
+            }
         }).render();
         editDialog=new Overlay.Dialog({
             title:'Edit User Group',
@@ -131,7 +142,7 @@
             height:250,
             contentId:'role-editor',
             success:function(){
-                alert('Hello');
+                editForm.submit();
             }
         });
         store=new Data.Store({
@@ -179,6 +190,7 @@
             if(target.hasClass('edit-handler')){
                 $.post(baseUrl+'/core/role/detail',{code:record.rolecode},function(data){
                     if(data){
+                        $('#h-role-code').val(data.rolecode);
                         $('#e-role-code').val(data.rolecode);
                         $('#e-role-name').val(data.rolename);
                         $('#e-role-status').val(data.validflag);

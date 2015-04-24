@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- 主机:                           127.0.0.1
--- 服务器版本:                        5.5.36-MariaDB - mariadb.org binary distribution
--- 服务器操作系统:                      Win64
--- HeidiSQL 版本:                  8.3.0.4694
+-- 服务器版本:                        5.5.39-MariaDB - mariadb.org binary distribution
+-- 服务器操作系统:                      Win32
+-- HeidiSQL 版本:                  8.3.0.4713
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -25,7 +25,6 @@ CREATE TABLE IF NOT EXISTS `pp_company` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- 正在导出表  puppy.pp_company 的数据：~15 rows (大约)
-DELETE FROM `pp_company`;
 /*!40000 ALTER TABLE `pp_company` DISABLE KEYS */;
 INSERT INTO `pp_company` (`comcode`, `comname`) VALUES
 	('330205', '江北'),
@@ -58,8 +57,7 @@ CREATE TABLE IF NOT EXISTS `pp_core_forum` (
   PRIMARY KEY (`forumid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
--- 正在导出表  puppy.pp_core_forum 的数据：~23 rows (大约)
-DELETE FROM `pp_core_forum`;
+-- 正在导出表  puppy.pp_core_forum 的数据：~6 rows (大约)
 /*!40000 ALTER TABLE `pp_core_forum` DISABLE KEYS */;
 INSERT INTO `pp_core_forum` (`forumid`, `parentid`, `forumname`, `forumorder`, `url`, `validstatus`) VALUES
 	(1, 0, 'Dashboard', 1, '/core/dashboard', '1'),
@@ -71,25 +69,39 @@ INSERT INTO `pp_core_forum` (`forumid`, `parentid`, `forumname`, `forumorder`, `
 /*!40000 ALTER TABLE `pp_core_forum` ENABLE KEYS */;
 
 
+-- 导出  表 puppy.pp_core_privilege 结构
+DROP TABLE IF EXISTS `pp_core_privilege`;
+CREATE TABLE IF NOT EXISTS `pp_core_privilege` (
+  `rolecode` char(2) NOT NULL,
+  `forumid` int(11) NOT NULL,
+  UNIQUE KEY `Index 1` (`rolecode`,`forumid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在导出表  puppy.pp_core_privilege 的数据：~0 rows (大约)
+/*!40000 ALTER TABLE `pp_core_privilege` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pp_core_privilege` ENABLE KEYS */;
+
+
 -- 导出  表 puppy.pp_core_role 结构
 DROP TABLE IF EXISTS `pp_core_role`;
 CREATE TABLE IF NOT EXISTS `pp_core_role` (
   `rolecode` char(2) NOT NULL,
   `rolename` varchar(20) NOT NULL,
-  `description` varchar(50) DEFAULT NULL,
+  `description` varchar(100) DEFAULT NULL,
   `validflag` enum('Y','N') NOT NULL DEFAULT 'Y',
   PRIMARY KEY (`rolecode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 正在导出表  puppy.pp_core_role 的数据：~2 rows (大约)
-DELETE FROM `pp_core_role`;
+-- 正在导出表  puppy.pp_core_role 的数据：~7 rows (大约)
 /*!40000 ALTER TABLE `pp_core_role` DISABLE KEYS */;
 INSERT INTO `pp_core_role` (`rolecode`, `rolename`, `description`, `validflag`) VALUES
+	('CA', 'Common Admin', 'Lower than super admin', 'Y'),
 	('CE', 'Content Editor', 'Content Editor', 'Y'),
 	('SA', 'Super Admin', 'Super admin', 'Y'),
-	('TA', 'Temp Admin A', 'Temp Admin', 'N'),
-	('TB', 'Temp Admin B', 'Temp Admin', 'N'),
-	('TC', 'Temp Admin C', 'Temp Admin', 'N');
+	('TA', 'Temp Admin A', 'Temp Admin', 'Y'),
+	('TB', 'Temp Admin B', 'Temp Admin', 'Y'),
+	('TC', 'Temp Admin C', 'Temp Admin', 'N'),
+	('TD', 'Temp Admin D', '', 'Y');
 /*!40000 ALTER TABLE `pp_core_role` ENABLE KEYS */;
 
 
@@ -104,12 +116,31 @@ CREATE TABLE IF NOT EXISTS `pp_core_user` (
   PRIMARY KEY (`authid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 正在导出表  puppy.pp_core_user 的数据：~2 rows (大约)
-DELETE FROM `pp_core_user`;
+-- 正在导出表  puppy.pp_core_user 的数据：~22 rows (大约)
 /*!40000 ALTER TABLE `pp_core_user` DISABLE KEYS */;
 INSERT INTO `pp_core_user` (`authid`, `credential`, `accountname`, `rolecode`, `validflag`) VALUES
 	('07256985', '25f9e794323b453885f5181f1b624d0b', 'Catherine Jason', 'CE', 'N'),
-	('13150297', '1d42abef5a4a5748edf45448bc8d64c5', 'Josh Hu', 'SA', 'Y');
+	('13150297', '1d42abef5a4a5748edf45448bc8d64c5', 'Josh Hu', 'SA', 'Y'),
+	('33020101', 'e10adc3949ba59abbe56e057f20f883e', 'Test User1', 'CA', 'Y'),
+	('33020102', 'e10adc3949ba59abbe56e057f20f883e', 'Test User2', 'CA', 'Y'),
+	('33020103', 'e10adc3949ba59abbe56e057f20f883e', 'Test User3', 'TA', 'Y'),
+	('33020104', 'e10adc3949ba59abbe56e057f20f883e', 'Test User4', 'TA', 'Y'),
+	('33020105', 'e10adc3949ba59abbe56e057f20f883e', 'Test User5', 'TA', 'Y'),
+	('33020106', 'e10adc3949ba59abbe56e057f20f883e', 'Test User6', 'TA', 'Y'),
+	('33020107', 'e10adc3949ba59abbe56e057f20f883e', 'Test User7', 'TA', 'Y'),
+	('33020108', 'e10adc3949ba59abbe56e057f20f883e', 'Test User8', 'TA', 'Y'),
+	('33020109', 'e10adc3949ba59abbe56e057f20f883e', 'Test User9', 'TA', 'Y'),
+	('33020110', 'e10adc3949ba59abbe56e057f20f883e', 'Test User10', 'TA', 'Y'),
+	('33020111', 'e10adc3949ba59abbe56e057f20f883e', 'Test User11', 'TA', 'Y'),
+	('33020112', 'e10adc3949ba59abbe56e057f20f883e', 'Test User12', 'TA', 'Y'),
+	('33020113', 'e10adc3949ba59abbe56e057f20f883e', 'Test User13', 'TB', 'Y'),
+	('33020114', 'e10adc3949ba59abbe56e057f20f883e', 'Test User13', 'TB', 'Y'),
+	('33020115', 'e10adc3949ba59abbe56e057f20f883e', 'Test User15', 'TB', 'Y'),
+	('33020116', 'e10adc3949ba59abbe56e057f20f883e', 'Test User16', 'TA', 'Y'),
+	('33020117', 'e10adc3949ba59abbe56e057f20f883e', 'Test User17', 'TA', 'Y'),
+	('33020118', 'e10adc3949ba59abbe56e057f20f883e', 'Test User18', 'TA', 'Y'),
+	('33020119', 'e10adc3949ba59abbe56e057f20f883e', 'Test User19', 'TA', 'Y'),
+	('33020120', 'e10adc3949ba59abbe56e057f20f883e', 'Test User20', 'TA', 'Y');
 /*!40000 ALTER TABLE `pp_core_user` ENABLE KEYS */;
 
 
@@ -127,8 +158,7 @@ CREATE TABLE IF NOT EXISTS `pp_request_log` (
   KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
--- 正在导出表  puppy.pp_request_log 的数据：~13,610 rows (大约)
-DELETE FROM `pp_request_log`;
+-- 正在导出表  puppy.pp_request_log 的数据：~13,598 rows (大约)
 /*!40000 ALTER TABLE `pp_request_log` DISABLE KEYS */;
 INSERT INTO `pp_request_log` (`requestid`, `requesturi`, `method`, `ipaddress`, `userid`, `createtime`) VALUES
 	('000030730a008723f08796b9bbc831ba', '/cardealer/u/captcha.do', 'GET', '36.1.36.69', 0, '2015-03-03 09:26:31'),
@@ -13711,7 +13741,6 @@ CREATE TABLE IF NOT EXISTS `pp_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- 正在导出表  puppy.pp_role 的数据：~8 rows (大约)
-DELETE FROM `pp_role`;
 /*!40000 ALTER TABLE `pp_role` DISABLE KEYS */;
 INSERT INTO `pp_role` (`rolecode`, `rolename`, `description`, `validstatus`) VALUES
 	('DM', '普通管理员', '比本部工作人员多了公告管理和用户管理', 1),
@@ -13746,7 +13775,6 @@ CREATE TABLE IF NOT EXISTS `pp_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- 正在导出表  puppy.pp_user 的数据：~55 rows (大约)
-DELETE FROM `pp_user`;
 /*!40000 ALTER TABLE `pp_user` DISABLE KEYS */;
 INSERT INTO `pp_user` (`userid`, `accountname`, `email`, `userpass`, `rolecode`, `ipaddress`, `autologin`, `regdate`, `relogindate`, `lastlogin`, `validstatus`, `resetpwdflag`, `comcode`) VALUES
 	(1, '胡建鸿', 'hujianhong05@ningb.picc.com.cn', '1d42abef5a4a5748edf45448bc8d64c5', 'SA', '36.1.36.69', 1, '2015-01-21', '2015-04-16', '2015-04-02 13:22:55', 1, 1, ''),
