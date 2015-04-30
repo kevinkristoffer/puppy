@@ -158,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `pp_request_log` (
   KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
--- 正在导出表  puppy.pp_request_log 的数据：~13,598 rows (大约)
+-- 正在导出表  puppy.pp_request_log 的数据：~12,786 rows (大约)
 /*!40000 ALTER TABLE `pp_request_log` DISABLE KEYS */;
 INSERT INTO `pp_request_log` (`requestid`, `requesturi`, `method`, `ipaddress`, `userid`, `createtime`) VALUES
 	('000030730a008723f08796b9bbc831ba', '/cardealer/u/captcha.do', 'GET', '36.1.36.69', 0, '2015-03-03 09:26:31'),

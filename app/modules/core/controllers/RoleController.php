@@ -14,17 +14,20 @@ class Core_RoleController extends Zend_Controller_Action
             if (!isset ($_SERVER ['HTTP_X_REQUESTED_WITH']) ||
                 strtolower($_SERVER ['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest'
             ) {
-                throw new Exception ();
+                exit();
             }
             $this->_helper->getHelper('viewRenderer')->setNoRender();
             $this->_helper->getHelper('layout')->disableLayout();
 
-            $db = Puppy_Core_Db::getConnection();
-            $modelManager = Puppy_Core_Model_Manager::getInstance();
-            $modelManager->setDbConnection($db);
-            $modelManager->registerModel('core_Role');
-            $roles = $modelManager->core_Role->queryAllRoles();
-
+            try{
+                $db = Puppy_Core_Db::getConnection();
+                $modelManager = Puppy_Core_Model_Manager::getInstance();
+                $modelManager->setDbConnection($db);
+                $modelManager->registerModel('core_Role');
+                $roles = $modelManager->core_Role->queryAllRoles();
+            }catch (Exception $ex){
+                $roles=array();
+            }
             $this->_response->setHeader('content-type', 'application/json;charset=utf-8');
             $this->_response->setBody(json_encode($roles));
         }
@@ -39,7 +42,7 @@ class Core_RoleController extends Zend_Controller_Action
             if (!isset ($_SERVER ['HTTP_X_REQUESTED_WITH']) ||
                 strtolower($_SERVER ['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest'
             ) {
-                throw new Exception ();
+                exit();
             }
             $this->_helper->getHelper('viewRenderer')->setNoRender();
             $this->_helper->getHelper('layout')->disableLayout();
@@ -69,7 +72,7 @@ class Core_RoleController extends Zend_Controller_Action
             if (!isset ($_SERVER ['HTTP_X_REQUESTED_WITH']) ||
                 strtolower($_SERVER ['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest'
             ) {
-                throw new Exception ();
+                exit();
             }
             $this->_helper->getHelper('viewRenderer')->setNoRender();
             $this->_helper->getHelper('layout')->disableLayout();
@@ -130,7 +133,7 @@ class Core_RoleController extends Zend_Controller_Action
             if (!isset ($_SERVER ['HTTP_X_REQUESTED_WITH']) ||
                 strtolower($_SERVER ['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest'
             ) {
-                throw new Exception ();
+                exit();
             }
             $this->_helper->getHelper('viewRenderer')->setNoRender();
             $this->_helper->getHelper('layout')->disableLayout();
