@@ -16,7 +16,7 @@
     </div>
     <div class="row">
         <div class="span24">
-            <button></button>
+            <button><?php echo $this->translator('user_search_button_text'); ?></button>
         </div>
     </div>
     <hr/>
@@ -51,8 +51,8 @@
             }
         }];
         grid=new Grid.Grid({
-            render:'#role-grid',
-            width:510,
+            render:'#user-grid',
+            //width:510,
             columns:columns,
             loadMask:true,
             store:store,
